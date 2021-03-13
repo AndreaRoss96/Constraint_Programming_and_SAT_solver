@@ -53,6 +53,8 @@ constraint
 /* predicate cumulative
  * Requires that a set of pieces of paper given by left bottom corner (coordinates), size along the x axis, and size along the y axis, never require more than a global resource bound (width or height) at any one time.
  */
+ 
+/*built in annotation "domain" which instructs the solver to use the domain propagating version of cumulative*/
 constraint 
   cumulative(coordinates[..,y], size[..,y], size[..,x], w)::domain;
 constraint 
