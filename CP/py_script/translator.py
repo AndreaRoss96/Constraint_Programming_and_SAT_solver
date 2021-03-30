@@ -77,14 +77,14 @@ for filename in os.listdir(dir_):
     file_read.write(h)
     file_read.write(w)
     file_read.write(n_pieces)
-    file_read.write(sizes)
-    file_read.write(rect_size)
-    file_read.write(rect_offset)
     file_read.write(shape)
     file_read.write(shapeind)
     file_read.write(ncopy)
-
     file_read.write("c = " + str(np.array([list(couples.values())]).size) + ";\n")
-    file_read.write("m = " + str(i) + ";\n")
+    file_read.write("n_shapes = " + str(i) + ";\n")
+	
+	file_read.write(sizes)
+    file_read.write(rect_size)
+    file_read.write(rect_offset)
 
     file_read.close() 
