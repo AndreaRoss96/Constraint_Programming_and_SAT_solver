@@ -54,32 +54,49 @@ Parameters:
 int: k = 2;
 array[NPIECES_ROT, 1..k] of int : rect_size;
 array[NPIECES_ROT, 1..k] of int : rect_offset;
-array[NPIECES] of set of int: shapeind;
+array[int] of set of NPIECES_ROT: shape;
 % x = coordinates
-array[NPIECES] of var int : kind; % rotation
 
-% implied cumulative constraints
+% implied cumulative constraints --> riguarda
 constraint (cumulative([coordinates[i,x] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ],h));
 constraint (cumulative([coordinates[i,y] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ],w));           
 
-% non-overlap constraint
+% non-overlap constraint --> riguarda
+
+% index of shapes related to a paper and, eventually, its rotation
+array[NPIECES] of set of int: shapeind;
+array[NPIECES] of var int : kind; % rotation
 constraint forall(i in NPIECES)(kind[i] in shapeind[i]);
 
 array[DIM] of var int : l = [0,0];
 array[DIM] of var int : u = [w,h];
 
 constraint
-  geost_bb(k,rect_size,rect_offset, shapeind, coordinates, kind, l, u);
+  geost_bb(k,rect_size,rect_offset, shape, coordinates, kind, l, u);
 
-/*
-A global non-overlap constraint for 2 dimensional objects. It enforces that no two objects overlap and zero-length objects do not appear in the middle of other objects.
-- x1: first coordinate of each object
-- w2: width in first dimension for each object
-- x2: second coordinate of each object
-- w2: width in second dimension for each object
-*/
-% constraint 
-%  geost_nonoverlap_k(coordinates[..,x],size[..,x],coordinates[..,y],size[..,y]);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% numper of different pieces of paper
+int: c;
+set of int: NDIFFPIECES = 1..c;
+
+% number of copy for each piece of paper
+array[NDIFFPIECES] of int: ncopy;
+
+% find the starting index of each size
+array[NDIFFPIECES] of int: base = 
+  [if i = 1 then 0 else
+    sum(j in 1..i-1)(ncopy[j]) endif
+  | i in NDIFFPIECES];
+  
+% order pieces of the same size
+constraint forall(i in NDIFFPIECES)(
+  forall(j in 1..ncopy[i]-1)(
+    lex_greater(coordinates[base[i]+j,..],coordinates[base[i]+j+1,..])));
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 /*
 cosa fa lui?
