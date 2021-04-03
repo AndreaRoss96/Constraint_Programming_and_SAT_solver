@@ -3,24 +3,25 @@ include "globals.mzn";
 % paper roll dimensions
 int: w;
 int: h;
+set of int : DIM = 1..2;
 
-% number of necessary pieces of paper
+% pieces of paper 
 int: n_pieces;
 set of int: NPIECES = 1..n_pieces;
 
-% number of shapes
+% number of shapes --> i.e. nxn is 1 shape, mxn is 2 shapes
 int: n_shapes;
 set of int: NPIECES_ROT = 1..n_shapes;
 
 % dimension of pieces of paper
-array[NPIECES, 1..2] of int: size; 
+array[NPIECES, DIM] of int: size; 
 
 % axes
 int: x = 1;
 int: y = 2;
 
 % coordinates of the left bottom corner
-array[NPIECES, 1..2] of var int: coordinates;
+array[NPIECES, DIM] of var int: coordinates;
 
 
 % CONSTRAINTS %
@@ -29,9 +30,13 @@ constraint
   forall(i in NPIECES)
     ((coordinates[i,x] >= 0 /\ coordinates[i,x] < w) /\ 
      (coordinates[i,y] >= 0 /\ coordinates[i,y] < h));
+     
 
 /*
--- geost_bb -- https://www.minizinc.org/doc-2.5.3/en/lib-globals.html#index-97
+-- geost_bb --
+doc: https://www.minizinc.org/doc-2.5.3/en/lib-globals.html#index-97
+example: https://github.com/MiniZinc/minizinc-examples/blob/master/carpet_cutting/carpet_cutting_geost.mzn
+
 A global non-overlap constraint for k dimensional objects.
 It enforces that no two objects overlap, and that all objects
 fit within a global k dimensional bounding box.
@@ -47,26 +52,85 @@ Parameters:
 - u: is an array of upper bounds, u [ i ] is the maximum bounding box for all objects in dimension i 
 */
 int: k = 2;
-array[NPIECES_ROT, 1..k] set of int: rect_size;
-array[] set of int: rect_offset; % è uguale a prima ?
-array[int] of NPIECES_ROT: shape;
-???: x;
-???: kind;
-[0,0] : l;
-[w,h] : u
+array[NPIECES_ROT, 1..k] of int : rect_size;
+array[NPIECES_ROT, 1..k] of int : rect_offset;
+array[int] of set of NPIECES_ROT: shape;
+% x = coordinates
 
+% implied cumulative constraints --> riguarda
+constraint (cumulative([coordinates[i,x] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ],h));
+constraint (cumulative([coordinates[i,y] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ],w));           
 
-/*
-A global non-overlap constraint for 2 dimensional objects. It enforces that no two objects overlap and zero-length objects do not appear in the middle of other objects.
-- x1: first coordinate of each object
-- w2: width in first dimension for each object
-- x2: second coordinate of each object
-- w2: width in second dimension for each object
-*/
-constraint 
- geost_nonoverlap_k(coordinates[..,x],size[..,x],coordinates[..,y],size[..,y]);
+% non-overlap constraint --> riguarda
+
+% index of shapes related to a paper and, eventually, its rotation
+array[NPIECES] of set of int: shapeind;
+array[NPIECES] of var int : kind; % rotation
+constraint forall(i in NPIECES)(kind[i] in shapeind[i]);
+
+array[DIM] of var int : l = [0,0];
+array[DIM] of var int : u = [w,h];
+
+constraint
+  geost_bb(k,rect_size,rect_offset, shape, coordinates, kind, l, u);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% numper of different pieces of paper
+int: c;
+set of int: NDIFFPIECES = 1..c;
+
+% number of copy for each piece of paper
+array[NDIFFPIECES] of int: ncopy;
+
+% find the starting index of each size
+array[NDIFFPIECES] of int: base = 
+  [if i = 1 then 0 else
+    sum(j in 1..i-1)(ncopy[j]) endif
+  | i in NDIFFPIECES];
+  
+% order pieces of the same size
+constraint forall(i in NDIFFPIECES)(
+  forall(j in 1..ncopy[i]-1)(
+    lex_greater(coordinates[base[i]+j,..],coordinates[base[i]+j+1,..])));
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 /*
 cosa fa lui?
 praticamente non considera soltanto i rettangoli, ma anche le "forme", ovvero i rettangoli non quadrati e che quindi possono essere ruotati
 */
+
+% search
+ann:search_ann;
+% Choose the variable with the largest domain
+search_ann = int_search(coordinates, first_fail, indomain_split); 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GUARDA QUALE ANNOTAZIONE SCEGLIERE %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%https://www.minizinc.org/doc-2.4.3/en/lib-annotations.html?highlight=first_fail
+
+% Choose the variable with largest domain, divided by the number of attached constraints weighted by how often they have caused failure
+%search_ann = int_search(coordinates, dom_w_deg, indomain_split);
+% Choose the variable with the smallest domain, breaking ties using the number of attached constraints
+%search_ann = int_search(coordinates, most_constrained, indomain_split);
+solve :: search_ann satisfy;
+
+output [
+  "width: ",show(w), " height: ", show(h), "\n",
+  "dimension x:",show(size[..,x]), "\n",
+  "dimension y:",show(size[..,y]), "\n",
+  "origin x:",show(coordinates[..,x]), "\n",
+  "origin y:",show(coordinates[..,y]), "\n",
+  "===========================",
+  "rect_size:", show(rect_size),
+];
+output [
+  " required output:\n",
+  show(w), " ", show(h), "\n",
+  show(n_pieces), "\n",
+];
+output[
+  show(size[i,x]) ++ " " ++ show(size[i,y]) ++ "  " ++ show(coordinates[i,x]) ++ " " ++ show(coordinates[i,y]) ++ "\n" | i in NPIECES
+];
