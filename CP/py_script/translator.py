@@ -1,7 +1,8 @@
 import os
 import numpy as np 
 
-dir_ = "..\\..\\Instances\\"
+dir_ = r"C:\\Users\\admin\\Desktop\\toGitHub\\Constraint_Programming_and_SAT_solver\\Instances\\"
+# r"../../Instances/"
 
 for filename in os.listdir(dir_):
     file_read = open(dir_+filename, 'r')
@@ -82,8 +83,8 @@ for filename in os.listdir(dir_):
     file_read.write(ncopy)
     file_read.write("c = " + str(np.array([list(couples.values())]).size) + ";\n")
     file_read.write("n_shapes = " + str(i) + ";\n")
-	
-	file_read.write(sizes)
+    
+    file_read.write(sizes)
     file_read.write(rect_size)
     file_read.write(rect_offset)
 

@@ -5,6 +5,10 @@ int: w;
 int: h;
 set of int : DIM = 1..2;
 
+% axes
+int: x = 1;
+int: y = 2;
+
 % pieces of paper 
 int: n_pieces;
 set of int: NPIECES = 1..n_pieces;
@@ -16,24 +20,10 @@ set of int: NPIECES_ROT = 1..n_shapes;
 % dimension of pieces of paper
 array[NPIECES, DIM] of int: size; 
 
-% axes
-int: x = 1;
-int: y = 2;
-
 % coordinates of the left bottom corner
 array[NPIECES, DIM] of var int: coordinates;
 
-
-% CONSTRAINTS %
-% set the domain of the pieces value
-constraint 
-  forall(i in NPIECES)
-    ((coordinates[i,x] >= 0 /\ coordinates[i,x] < w) /\ 
-     (coordinates[i,y] >= 0 /\ coordinates[i,y] < h));
-     
-
-/*
--- geost_bb --
+/*-- geost_bb --
 doc: https://www.minizinc.org/doc-2.5.3/en/lib-globals.html#index-97
 example: https://github.com/MiniZinc/minizinc-examples/blob/master/carpet_cutting/carpet_cutting_geost.mzn
 
@@ -56,20 +46,28 @@ array[NPIECES_ROT, 1..k] of int : rect_size;
 array[NPIECES_ROT, 1..k] of int : rect_offset;
 array[int] of set of NPIECES_ROT: shape;
 % x = coordinates
+% index of shapes related to a paper and, eventually, its rotation
+array[NPIECES] of set of int: shapeind;
+array[NPIECES] of var int : kind;
+array[DIM] of var int : l = [0,0];
+array[DIM] of var int : u = [w,h];
+
+
+% CONSTRAINTS %
+% set the domain of the pieces value
+constraint 
+  forall(i in NPIECES)
+    ((coordinates[i,x] >= 0 /\ coordinates[i,x] < w) /\ 
+     (coordinates[i,y] >= 0 /\ coordinates[i,y] < h));
+     
 
 % implied cumulative constraints --> riguarda
 constraint (cumulative([coordinates[i,x] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ],h));
 constraint (cumulative([coordinates[i,y] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ],w));           
 
-% non-overlap constraint --> riguarda
 
-% index of shapes related to a paper and, eventually, its rotation
-array[NPIECES] of set of int: shapeind;
-array[NPIECES] of var int : kind; % rotation
-constraint forall(i in NPIECES)(kind[i] in shapeind[i]);
-
-array[DIM] of var int : l = [0,0];
-array[DIM] of var int : u = [w,h];
+% bounding constraint
+constraint forall(i in NPIECES)(kind[i] in shapeind[i]); 
 
 constraint
   geost_bb(k,rect_size,rect_offset, shape, coordinates, kind, l, u);
@@ -84,12 +82,13 @@ set of int: NDIFFPIECES = 1..c;
 % number of copy for each piece of paper
 array[NDIFFPIECES] of int: ncopy;
 
-% find the starting index of each size
+% % find the starting index of each size
 array[NDIFFPIECES] of int: base = 
   [if i = 1 then 0 else
     sum(j in 1..i-1)(ncopy[j]) endif
   | i in NDIFFPIECES];
   
+
 % order pieces of the same size
 constraint forall(i in NDIFFPIECES)(
   forall(j in 1..ncopy[i]-1)(
@@ -97,11 +96,6 @@ constraint forall(i in NDIFFPIECES)(
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-/*
-cosa fa lui?
-praticamente non considera soltanto i rettangoli, ma anche le "forme", ovvero i rettangoli non quadrati e che quindi possono essere ruotati
-*/
 
 % search
 ann:search_ann;
@@ -123,8 +117,11 @@ output [
   "dimension y:",show(size[..,y]), "\n",
   "origin x:",show(coordinates[..,x]), "\n",
   "origin y:",show(coordinates[..,y]), "\n",
-  "===========================",
-  "rect_size:", show(rect_size),
+  "===========================", "\n",
+%   "rect_size:", show(rect_size),"\n",
+%   "NDIFFPIECES:", show(base), "\n",
+%   "ncopy:",show(ncopy),"\n",
+  "=============================="
 ];
 output [
   " required output:\n",
