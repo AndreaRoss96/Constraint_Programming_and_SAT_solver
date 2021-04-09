@@ -23,7 +23,7 @@ for filename in os.listdir(dir_):
     rect_size = "rect_size = [" # used in the general version 
     rect_offset = "rect_offset = ["
     shape = "shape = ["
-    shapeind = "shapeind = ["
+    shape_index = "shape_index = ["
     i = 0
     
     ncopy = "ncopy = "
@@ -39,18 +39,18 @@ for filename in os.listdir(dir_):
             rect_size += "|"+ size[0] + ", " + size[1] + "\n"
             rect_offset += "|"+ str(0) + ", " + str(0) + "\n"
             shape += "{" + str(i) + "}" + ", "
-            shapeind += "{" + str(i) + ", "
+            shape_index += "{" + str(i) + ", "
             i+=1
             rect_size += "|"+ size[1] + ", " + size[0] + "\n"
             rect_offset += "|"+ str(0) + ", " + str(0) + "\n"
             shape += "{" + str(i) + "}" + ", "
-            shapeind += str(i) + "}, "
+            shape_index += str(i) + "}, "
         else:
             i+=1
             rect_size += "|"+ size[0] + ", " + size[1]  + "\n"
             rect_offset += "|"+ str(0) + ", " + str(0) + "\n"
             shape += "{" + str(i) + "}" + ", "
-            shapeind += "{" + str(i) + "}, "
+            shape_index += "{" + str(i) + "}, "
         sizes += "|"+ size[0] + ", " + size[1] + "\n"
         couples[couple] = couples.get(couple,0) + 1
     
@@ -60,16 +60,29 @@ for filename in os.listdir(dir_):
     rect_offset += "|];\n"
     shape = shape[:-2]
     shape += "];\n"
-    shapeind = shapeind[:-2]
-    shapeind += "];\n"
+    shape_index = shape_index[:-2]
+    shape_index += "];\n"
     
-    ncopy += str(str(list(couples.values()))) + ";\n"
+    ncopy_values = list(couples.values())
+    c = np.array([list(couples.values())]).size
+
+    print("couples:", ncopy_values)
+
+    base = [0 if i == 1 else sum(ncopy_values[:i-1]) for i in range(1,c)]
+    # for i in ncopy:
+    #     if i == 0:
+    # else :
+    #     for j in range()
+
+    ncopy += str(ncopy_values) + ";\n"
+    print(base)
+
     #manca la print di w, h e n_pieces
     print(sizes)
     print(rect_size)
     print(rect_offset)
     print(shape)
-    print(shapeind)
+    print(shape_index)
     print(ncopy)
     file_read.close()
     tmp_file = filename.strip().split(".")
@@ -79,9 +92,9 @@ for filename in os.listdir(dir_):
     file_read.write(w)
     file_read.write(n_pieces)
     file_read.write(shape)
-    file_read.write(shapeind)
+    file_read.write(shape_index)
     file_read.write(ncopy)
-    file_read.write("c = " + str(np.array([list(couples.values())]).size) + ";\n")
+    file_read.write("c = " + str(c) + ";\n")
     file_read.write("n_shapes = " + str(i) + ";\n")
     
     file_read.write(sizes)

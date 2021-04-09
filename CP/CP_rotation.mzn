@@ -82,11 +82,12 @@ set of int: NDIFFPIECES = 1..c;
 % number of copy for each piece of paper
 array[NDIFFPIECES] of int: ncopy;
 
-% % find the starting index of each size
-array[NDIFFPIECES] of int: base = 
-  [if i = 1 then 0 else
-    sum(j in 1..i-1)(ncopy[j]) endif
-  | i in NDIFFPIECES];
+% find the starting index of each size
+array[NDIFFPIECES] of int: base;
+%  = 
+%   [if i = 1 then 0 else
+%     sum(j in 1..i-1)(ncopy[j]) endif
+%   | i in NDIFFPIECES];
   
 
 % order pieces of the same size
