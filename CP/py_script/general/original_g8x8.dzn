@@ -1,7 +1,7 @@
 h = 8;
 w = 8;
 n_pieces = 4;
-size = [|3, 3
+rectangles = [|3, 3
 |3, 5
 |5, 3
 |5, 5

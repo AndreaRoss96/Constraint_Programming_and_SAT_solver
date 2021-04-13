@@ -9,7 +9,7 @@ int: n_pieces;
 set of int: NPIECES = 1..n_pieces;
 
 % dimension of pieces of paper
-array[NPIECES, 1..2] of int: size; 
+array[NPIECES, 1..2] of int: rectangles; 
 
 % axes
 int: x = 1;
@@ -31,7 +31,7 @@ constraint
  * Constrains rectangles i , given by their origins ( x [ i ], y [ i ]) and sizes ( dx [ i ], dy [ i ]), to be non-overlapping. Zero-width rectangles can still not overlap with any other rectangle.
  */
 constraint
-  diffn(coordinates[..,x],coordinates[..,y], size[..,x], size[..,y]);
+  diffn(coordinates[..,x],coordinates[..,y], rectangles[..,x], rectangles[..,y]);
 /*
 For the non-overlapping constraint I also tried:
  * array[NPIECES, 1..2] of var 0..max([w, h])-1: q;
@@ -45,8 +45,8 @@ For the non-overlapping constraint I also tried:
 % each piece must fit in the paper roll
 constraint 
   forall(i in NPIECES)
-    (((size[i,x] + coordinates[i,x]) <= w) /\
-     ((size[i,y] + coordinates[i,y]) <= h));
+    (((rectangles[i,x] + coordinates[i,x]) <= w) /\
+     ((rectangles[i,y] + coordinates[i,y]) <= h));
 
 
 % implied cumulative constraints 
@@ -56,9 +56,9 @@ constraint
  
 /*built in annotation "domain" which instructs the solver to use the domain propagating version of cumulative*/
 constraint 
-  cumulative(coordinates[..,y], size[..,y], size[..,x], w)::domain;
+  cumulative(coordinates[..,y], rectangles[..,y], rectangles[..,x], w)::domain;
 constraint 
-  cumulative(coordinates[..,x], size[..,x], size[..,y], h)::domain;
+  cumulative(coordinates[..,x], rectangles[..,x], rectangles[..,y], h)::domain;
 
 % search
 ann:search_ann;
@@ -76,8 +76,8 @@ solve :: search_ann satisfy;
 
 output [
   "width: ",show(w), " height: ", show(h), "\n",
-  "dimension x:",show(size[..,x]), "\n",
-  "dimension y:",show(size[..,y]), "\n",
+  "dimension x:",show(rectangles[..,x]), "\n",
+  "dimension y:",show(rectangles[..,y]), "\n",
   "origin x:",show(coordinates[..,x]), "\n",
   "origin y:",show(coordinates[..,y]), "\n",
   "==========================="
@@ -88,5 +88,5 @@ output [
   show(n_pieces), "\n",
 ];
 output[
-  show(size[i,x]) ++ " " ++ show(size[i,y]) ++ "  " ++ show(coordinates[i,x]) ++ " " ++ show(coordinates[i,y]) ++ "\n" | i in NPIECES
+  show(rectangles[i,x]) ++ " " ++ show(rectangles[i,y]) ++ "  " ++ show(coordinates[i,x]) ++ " " ++ show(coordinates[i,y]) ++ "\n" | i in NPIECES
 ];
