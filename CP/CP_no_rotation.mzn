@@ -20,13 +20,22 @@ int: y = 2;
 array[NPIECES, 1..2] of var int: coordinates; 
 
 % CONSTRAINTS %
-% bound the pieces within the paper rolls limits
+
+%% Defining the domain of the problem
+
+% bound the pieces origin within the paper rolls limits
 constraint 
   forall(i in NPIECES)
     ((coordinates[i,x] >= 0 /\ coordinates[i,x] < w) /\ 
      (coordinates[i,y] >= 0 /\ coordinates[i,y] < h));
+     
+% bound the pieces dimension within the paper rolls limits
+constraint 
+  forall(i in NPIECES)
+    (((rectangles[i,x] + coordinates[i,x]) <= w) /\
+     ((rectangles[i,y] + coordinates[i,y]) <= h));
 
-% non-overlapping constraint
+%% non-overlapping constraint
 /* predicate diffn
  * Constrains rectangles i , given by their origins ( x [ i ], y [ i ]) 
  * and sizes ( dx [ i ], dy [ i ]), to be non-overlapping. Zero-width 
@@ -44,23 +53,19 @@ For the non-overlapping constraint I also tried:
  * but both the predicates fail with 40x40 paper size
 */
 
-% each piece must fit in the paper roll
-constraint 
-  forall(i in NPIECES)
-    (((rectangles[i,x] + coordinates[i,x]) <= w) /\
-     ((rectangles[i,y] + coordinates[i,y]) <= h));
 
-
-% implied cumulative constraints 
+%% implied cumulative constraints 
 /* predicate cumulative
- * Requires that a set of pieces of paper given by left bottom corner (coordinates), size along the x axis, and size along the y axis, never require more than a global resource bound (width or height) at any one time.
+ * Requires that a set of pieces of paper given by left bottom corner (coordinates), size along
+ * the x axis, and size along the y axis, never require more than a global resource bound
+ * (width or height) at any one time.
  */
  
 /*built in annotation "domain" which instructs the solver to use the domain propagating version of cumulative*/
-constraint 
-  cumulative(coordinates[..,y], rectangles[..,y], rectangles[..,x], w)::domain;
-constraint 
-  cumulative(coordinates[..,x], rectangles[..,x], rectangles[..,y], h)::domain;
+% constraint 
+%   cumulative(coordinates[..,y], rectangles[..,y], rectangles[..,x], w)::domain;
+% constraint 
+%   cumulative(coordinates[..,x], rectangles[..,x], rectangles[..,y], h)::domain;
 
 % search
 ann:search_ann;
