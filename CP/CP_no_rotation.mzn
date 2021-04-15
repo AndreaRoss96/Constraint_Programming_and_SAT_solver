@@ -20,7 +20,7 @@ int: y = 2;
 array[NPIECES, 1..2] of var int: coordinates; 
 
 % CONSTRAINTS %
-% set the domain of the pieces value
+% bound the pieces within the paper rolls limits
 constraint 
   forall(i in NPIECES)
     ((coordinates[i,x] >= 0 /\ coordinates[i,x] < w) /\ 
@@ -28,7 +28,9 @@ constraint
 
 % non-overlapping constraint
 /* predicate diffn
- * Constrains rectangles i , given by their origins ( x [ i ], y [ i ]) and sizes ( dx [ i ], dy [ i ]), to be non-overlapping. Zero-width rectangles can still not overlap with any other rectangle.
+ * Constrains rectangles i , given by their origins ( x [ i ], y [ i ]) 
+ * and sizes ( dx [ i ], dy [ i ]), to be non-overlapping. Zero-width 
+ * rectangles can still not overlap with any other rectangle.
  */
 constraint
   diffn(coordinates[..,x],coordinates[..,y], rectangles[..,x], rectangles[..,y]);

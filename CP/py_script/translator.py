@@ -89,19 +89,19 @@ def process(user_path):
                     n_shapes=n_shapes,
                     rect_size=rect_size,
                     rect_offset=rect_offset,
-                    final_dir="general")
+                    final_dir="rotation")
         writer(h,w,n_pieces,user_path,new_file,rectangles,
-                    final_dir="base")
+                    final_dir="no_rotation")
 
 def writer(h,w,n_pieces,user_path,new_file, rectangles,
             shape=0,shape_index=0,rect_rep=0,rect_copies=0,
             coordinate_shapes=0,n_shapes=0,rect_size=0,
-            rect_offset=0,final_dir="general"):
-    file_read = open(r"" + user_path + "CP\\py_script\\"+ final_dir +"\\new_" + new_file, "w+")
+            rect_offset=0,final_dir="rotation"):
+    file_read = open(r"" + user_path + "CP\\py_script\\"+ final_dir +"\\" + new_file, "w+")
     file_read.write(h)
     file_read.write(w)
     file_read.write(n_pieces)
-    if final_dir=="general" :
+    if final_dir=="rotation" :
         file_read.write(n_shapes)
         file_read.write(shape)
         file_read.write(shape_index)
