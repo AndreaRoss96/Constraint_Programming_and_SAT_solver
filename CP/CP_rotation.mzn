@@ -5,6 +5,10 @@ int: w;
 int: h;
 set of int : DIM = 1..2;
 
+% axes
+int: x = 1;
+int: y = 2;
+
 % pieces of paper 
 int: n_pieces;
 set of int: NPIECES = 1..n_pieces;
@@ -14,26 +18,12 @@ int: n_shapes;
 set of int: NPIECES_ROT = 1..n_shapes;
 
 % dimension of pieces of paper
-array[NPIECES, DIM] of int: size; 
-
-% axes
-int: x = 1;
-int: y = 2;
+array[NPIECES, DIM] of int: rectangles; % used just in final print
 
 % coordinates of the left bottom corner
 array[NPIECES, DIM] of var int: coordinates;
 
-
-% CONSTRAINTS %
-% set the domain of the pieces value
-constraint 
-  forall(i in NPIECES)
-    ((coordinates[i,x] >= 0 /\ coordinates[i,x] < w) /\ 
-     (coordinates[i,y] >= 0 /\ coordinates[i,y] < h));
-     
-
-/*
--- geost_bb --
+/*-- geost_bb --
 doc: https://www.minizinc.org/doc-2.5.3/en/lib-globals.html#index-97
 example: https://github.com/MiniZinc/minizinc-examples/blob/master/carpet_cutting/carpet_cutting_geost.mzn
 
@@ -48,7 +38,7 @@ Parameters:
 - shape: the set of rectangles defining the i -th shape.
 - x: the base position of each object. x [ i , j ] is the position of object i in. dimension j 
 - kind: the shape used by each object.
-- l: is an array of lower bounds, l [ i ] is the minimum bounding box for all objects in dimension i .
+- l: is an array of lower bounds, l [ i ] is the minimum bounding box for all objects in dimension i
 - u: is an array of upper bounds, u [ i ] is the maximum bounding box for all objects in dimension i 
 */
 int: k = 2;
@@ -56,52 +46,46 @@ array[NPIECES_ROT, 1..k] of int : rect_size;
 array[NPIECES_ROT, 1..k] of int : rect_offset;
 array[int] of set of NPIECES_ROT: shape;
 % x = coordinates
-
-% implied cumulative constraints --> riguarda
-constraint (cumulative([coordinates[i,x] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ],h));
-constraint (cumulative([coordinates[i,y] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ],w));           
-
-% non-overlap constraint --> riguarda
-
 % index of shapes related to a paper and, eventually, its rotation
-array[NPIECES] of set of int: shapeind;
-array[NPIECES] of var int : kind; % rotation
-constraint forall(i in NPIECES)(kind[i] in shapeind[i]);
-
+array[NPIECES] of set of int: shape_index;
+array[NPIECES] of var int : kind;
 array[DIM] of var int : l = [0,0];
 array[DIM] of var int : u = [w,h];
 
+
+% CONSTRAINTS %
+% set the domain of the pieces value
+constraint 
+  forall(i in NPIECES)
+    ((coordinates[i,x] >= 0 /\ coordinates[i,x] < w) /\ 
+     (coordinates[i,y] >= 0 /\ coordinates[i,y] < h));
+     
+
+% implied cumulative constraints --> riguarda
+constraint (cumulative([coordinates[i,x] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ],h));
+constraint (cumulative([coordinates[i,y] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ],w));
+
+% bounding constraint
+constraint forall(i in NPIECES)(kind[i] in shape_index[i]); 
+
+% non-overlap constraint for k dimensional objects
 constraint
   geost_bb(k,rect_size,rect_offset, shape, coordinates, kind, l, u);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % numper of different pieces of paper
-int: c;
-set of int: NDIFFPIECES = 1..c;
+int: rect_copies;
+set of int: NDIFFPIECES = 1..rect_copies;
 
 % number of copy for each piece of paper
-array[NDIFFPIECES] of int: ncopy;
+array[NDIFFPIECES] of int: rect_rep;
 
 % find the starting index of each size
-array[NDIFFPIECES] of int: base = 
-  [if i = 1 then 0 else
-    sum(j in 1..i-1)(ncopy[j]) endif
-  | i in NDIFFPIECES];
-  
+array[NDIFFPIECES] of int: coordinate_shapes;
+
 % order pieces of the same size
 constraint forall(i in NDIFFPIECES)(
-  forall(j in 1..ncopy[i]-1)(
-    lex_greater(coordinates[base[i]+j,..],coordinates[base[i]+j+1,..])));
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-/*
-cosa fa lui?
-praticamente non considera soltanto i rettangoli, ma anche le "forme", ovvero i rettangoli non quadrati e che quindi possono essere ruotati
-*/
+  forall(j in 1..rect_rep[i]-1)(
+    lex_greater(coordinates[coordinate_shapes[i]+j,..],coordinates[coordinate_shapes[i]+j+1,..])));
 
 % search
 ann:search_ann;
@@ -109,7 +93,8 @@ ann:search_ann;
 search_ann = int_search(coordinates, first_fail, indomain_split); 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GUARDA QUALE ANNOTAZIONE SCEGLIERE %%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%https://www.minizinc.org/doc-2.4.3/en/lib-annotations.html?highlight=first_fail
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%https://www.minizinc.org/doc-2.4.3/en/lib-annotations.html?highlight=first_fail
 
 % Choose the variable with largest domain, divided by the number of attached constraints weighted by how often they have caused failure
 %search_ann = int_search(coordinates, dom_w_deg, indomain_split);
@@ -119,12 +104,10 @@ solve :: search_ann satisfy;
 
 output [
   "width: ",show(w), " height: ", show(h), "\n",
-  "dimension x:",show(size[..,x]), "\n",
-  "dimension y:",show(size[..,y]), "\n",
+  "dimension x:",show(rectangles[..,x]), "\n",
+  "dimension y:",show(rectangles[..,y]), "\n",
   "origin x:",show(coordinates[..,x]), "\n",
-  "origin y:",show(coordinates[..,y]), "\n",
-  "===========================",
-  "rect_size:", show(rect_size),
+  "origin y:",show(coordinates[..,y]), "\n"
 ];
 output [
   " required output:\n",
@@ -132,5 +115,5 @@ output [
   show(n_pieces), "\n",
 ];
 output[
-  show(size[i,x]) ++ " " ++ show(size[i,y]) ++ "  " ++ show(coordinates[i,x]) ++ " " ++ show(coordinates[i,y]) ++ "\n" | i in NPIECES
+  show(rectangles[i,x]) ++ " " ++ show(rectangles[i,y]) ++ "  " ++ show(coordinates[i,x]) ++ " " ++ show(coordinates[i,y]) ++ "\n" | i in NPIECES
 ];
