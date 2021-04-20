@@ -1,0 +1,27 @@
+
+ (:arith-bound-propagations-cheap 3483
+ :arith-bound-propagations-lp    3074
+ :arith-conflicts                2303
+ :arith-lower                    35439
+ :arith-make-feasible            12100
+ :arith-max-columns              198
+ :arith-max-rows                 160
+ :arith-propagations             3483
+ :arith-upper                    33573
+ :binary-propagations            6161
+ :conflicts                      3438
+ :decisions                      8176
+ :del-clause                     51
+ :eliminated-vars                2
+ :final-checks                   1
+ :max-memory                     4.54
+ :memory                         3.25
+ :minimized-lits                 7532
+ :mk-bool-var                    262
+ :mk-clause                      6529
+ :num-allocs                     56609667
+ :num-checks                     1
+ :propagations                   74454
+ :restarts                       7
+ :rlimit-count                   2785881
+ :time                           1.42)
