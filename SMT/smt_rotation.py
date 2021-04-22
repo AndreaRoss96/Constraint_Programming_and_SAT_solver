@@ -93,4 +93,4 @@ for i in range(5):
                 #for this iteraction I just want to save the statistics
                 out.write("\n {}".format(solver.statistics()))
         else:
-            print("STO VOLANDO")
+            print("STO VOLANDO") # TODO

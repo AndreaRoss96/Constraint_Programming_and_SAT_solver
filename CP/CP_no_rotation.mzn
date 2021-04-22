@@ -1,4 +1,5 @@
 include "globals.mzn";
+
 % PARAMETERS %
 % paper roll dimensions
 int: w;
@@ -34,7 +35,12 @@ constraint
   forall(i in NPIECES)
     (((rectangles[i,x] + coordinates[i,x]) <= w) /\
      ((rectangles[i,y] + coordinates[i,y]) <= h));
-
+     
+% forza un blocco in basso a sinistra
+% constraint 
+%   coordinates[1,1] <= (w/2 - rectangles[1,1]/2) /\
+%   coordinates[1,2] <= (h/2 - rectangles[1,2]/2);
+     
 %% non-overlapping constraint
 /* predicate diffn
  * Constrains rectangles i , given by their origins ( x [ i ], y [ i ]) 
@@ -80,16 +86,16 @@ search_ann = int_search(coordinates, first_fail, indomain_split);
 %search_ann = int_search(coordinates, most_constrained, indomain_split);
 solve :: search_ann satisfy;
 
+% output [
+%   "width: ",show(w), " height: ", show(h), "\n",
+%   "dimension x:",show(rectangles[..,x]), "\n",
+%   "dimension y:",show(rectangles[..,y]), "\n",
+%   "origin x:",show(coordinates[..,x]), "\n",
+%   "origin y:",show(coordinates[..,y]), "\n",
+%   "==========================="
+% ];
 output [
-  "width: ",show(w), " height: ", show(h), "\n",
-  "dimension x:",show(rectangles[..,x]), "\n",
-  "dimension y:",show(rectangles[..,y]), "\n",
-  "origin x:",show(coordinates[..,x]), "\n",
-  "origin y:",show(coordinates[..,y]), "\n",
-  "==========================="
-];
-output [
-  " required output:\n",
+%   " required output:\n",
   show(w), " ", show(h), "\n",
   show(n_pieces), "\n",
 ];
