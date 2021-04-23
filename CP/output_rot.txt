@@ -1,0 +1,147 @@
+Compiling CP_rotation.mzn, with additional data 8x8.dzn 
+Running CP_rotation.mzn
+width: 8 height: 8
+dimension x:[3, 3, 5, 5]
+dimension y:[3, 5, 3, 5]
+origin x:[0, 3, 5, 0]
+origin y:[5, 5, 0, 0]
+ required output:
+8 8
+4
+3 3  0 5
+3 5  3 5
+5 3  5 0
+5 5  0 0
+----------
+Finished in 680msec
+Compiling CP_rotation.mzn, with additional data 9x9.dzn 
+Running CP_rotation.mzn
+9 9
+5
+3 3  0 0
+3 4  0 3
+3 5  4 3
+3 6  3 0
+3 9  0 6
+----------
+Finished in 765msec
+Compiling CP_rotation.mzn, with additional data 10x10.dzn 
+Running CP_rotation.mzn
+10 10
+6
+3 3  0 4
+3 4  0 7
+3 6  4 7
+3 7  3 4
+4 4  0 0
+4 6  4 0
+----------
+Finished in 785msec
+Compiling CP_rotation.mzn, with additional data 11x11.dzn 
+Running CP_rotation.mzn
+11 11
+7
+3 3  0 0
+3 4  0 3
+3 5  3 0
+3 6  8 0
+5 3  8 6
+5 4  3 3
+8 4  0 7
+----------
+Finished in 1s 20msec
+Compiling CP_rotation.mzn, with additional data 12x12.dzn 
+Running CP_rotation.mzn
+12 12
+8
+3 3  0 0
+3 4  0 3
+3 5  0 6
+3 6  0 9
+3 7  5 6
+3 8  4 3
+3 9  3 0
+6 3  6 9
+----------
+Finished in 1s 293msec
+Compiling CP_rotation.mzn, with additional data 13x13.dzn 
+Running CP_rotation.mzn
+13 13
+9
+3 3  0 4
+3 4  3 4
+3 5  0 7
+3 6  0 10
+3 7  6 10
+3 8  5 7
+4 3  4 0
+4 4  0 0
+7 6  7 0
+----------
+Finished in 18s 247msec
+Compiling CP_rotation.mzn, with additional data 14x14.dzn 
+Running CP_rotation.mzn
+14 14
+9
+3 3  0 0
+3 4  0 3
+3 5  0 6
+3 6  5 6
+3 7  4 3
+3 8  3 0
+3 9  11 0
+5 4  0 9
+5 10  4 9
+----------
+Finished in 4m 9s
+Compiling CP_rotation.mzn, with additional data 15x15.dzn 
+Running CP_rotation.mzn
+Stopped.
+=====UNKNOWN=====
+Finished in 16m 6s
+Compiling CP_rotation.mzn, with additional data 16x16.dzn 
+Running CP_rotation.mzn
+=====UNKNOWN=====
+Finished in 16m 41s
+Compiling CP_rotation.mzn, with additional data 17x17.dzn 
+Running CP_rotation.mzn
+=====UNKNOWN=====
+Finished in 16m 41s
+Compiling CP_rotation.mzn, with additional data 18x18.dzn 
+Running CP_rotation.mzn
+=====UNKNOWN=====
+Finished in 16m 41s
+Compiling CP_rotation.mzn, with additional data 19x19.dzn 
+Running CP_rotation.mzn
+Stopped.
+Finished in 15m 21s
+Compiling CP_rotation.mzn, with additional data 20x20.dzn 
+Running CP_rotation.mzn
+=====UNKNOWN=====
+Finished in 16m 41s
+Compiling CP_rotation.mzn, with additional data 21x21.dzn 
+Running CP_rotation.mzn
+Stopped.
+Finished in 14m 17s
+Compiling CP_rotation.mzn, with additional data 22x22.dzn 
+Running CP_rotation.mzn
+=====UNKNOWN=====
+Finished in 16m 41s
+Compiling CP_rotation.mzn, with additional data 23x23.dzn 
+Running CP_rotation.mzn
+=====UNKNOWN=====
+Finished in 16m 41s
+Compiling CP_rotation.mzn, with additional data 24x24.dzn 
+Running CP_rotation.mzn
+=====UNKNOWN=====
+Finished in 16m 41s
+Compiling CP_rotation.mzn, with additional data 25x25.dzn 
+Running CP_rotation.mzn
+=====UNKNOWN=====
+Finished in 16m 41s
+Compiling CP_rotation.mzn, with additional data 26x26.dzn 
+Running CP_rotation.mzn
+=====UNKNOWN=====
+Finished in 16m 41s
+Compiling CP_rotation.mzn, with additional data 27x27.dzn 
+Running CP_rotation.mzn

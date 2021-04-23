@@ -20,7 +20,7 @@ set of int: NPIECES_ROT = 1..n_shapes;
 % dimension of pieces of paper
 array[NPIECES, DIM] of int: rectangles; % used just in final print
 
-% coordinates of the left bottom corner
+% coordinates of the left bottom corner of each rectangle
 array[NPIECES, DIM] of var int: coordinates;
 
 /*-- geost_bb --
@@ -52,14 +52,12 @@ array[NPIECES] of var int : kind;
 array[DIM] of var int : l = [0,0];
 array[DIM] of var int : u = [w,h];
 
-
 % CONSTRAINTS %
 % set the domain of the pieces value
 constraint 
   forall(i in NPIECES)
     ((coordinates[i,x] >= 0 /\ coordinates[i,x] < w) /\ 
      (coordinates[i,y] >= 0 /\ coordinates[i,y] < h));
-     
 
 % implied cumulative constraints --> riguarda
 constraint (cumulative([coordinates[i,x] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ],h));
@@ -102,15 +100,15 @@ search_ann = int_search(coordinates, first_fail, indomain_split);
 %search_ann = int_search(coordinates, most_constrained, indomain_split);
 solve :: search_ann satisfy;
 
+% output [
+%   "width: ",show(w), " height: ", show(h), "\n",
+%   "dimension x:",show(rectangles[..,x]), "\n",
+%   "dimension y:",show(rectangles[..,y]), "\n",
+%   "origin x:",show(coordinates[..,x]), "\n",
+%   "origin y:",show(coordinates[..,y]), "\n"
+% ];
 output [
-  "width: ",show(w), " height: ", show(h), "\n",
-  "dimension x:",show(rectangles[..,x]), "\n",
-  "dimension y:",show(rectangles[..,y]), "\n",
-  "origin x:",show(coordinates[..,x]), "\n",
-  "origin y:",show(coordinates[..,y]), "\n"
-];
-output [
-  " required output:\n",
+%   " required output:\n",
   show(w), " ", show(h), "\n",
   show(n_pieces), "\n",
 ];
