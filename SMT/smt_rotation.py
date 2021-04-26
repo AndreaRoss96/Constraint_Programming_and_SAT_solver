@@ -88,4 +88,4 @@ for i in range(5):
             m = solver.model()
             #printer(m, true_dim, bl_corner, h, w, pieces, join(output_dir,filename),rotation = True console_output=False )
         else:
-            print("STO VOLANDO")
+            print("STO VOLANDO") # TODO
