@@ -1,14 +1,14 @@
 from os import listdir
 from os.path import join, isfile
 import numpy as np
-from z3 import And, Or, Int, If, Solver, sat, Implies 
+from z3 import And, Or, Int, If, Solver, sat, Implies , Sum
 from printer import printer
 
 
-output_dir ="D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\SMT\\out_static\\"
+output_dir ="D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\SMT\\time_static_no_implied\\"
 dazone = "D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\all_the_rest"
 files = [filename for filename in listdir(dazone) if isfile(join(dazone, filename))]
-for i in range(1):
+for i in range(5):
     for filename in files:
         dim_pieces = []
         with open(join(dazone, filename), "r") as input:
@@ -66,37 +66,20 @@ for i in range(1):
         constraints += no_simmetry
         constraints += no_overlap
         '''
-
-        for i in range(pieces):
-            for j in range(i+1, pieces):
-                #check if two pieces have the same dimention or can be rotated to have that
-                if( (dim_pieces[i][0] == dim_pieces[j][0] and dim_pieces[i][1] == dim_pieces[j][1]) or
-                    (dim_pieces[i][0] == dim_pieces[j][1] and dim_pieces[i][1] == dim_pieces[j][0])):
-                    #if that's so assign a position relative to the two
-                    no_simmetry.append(And(bl_corner[i][0] <= bl_corner[j][0],
-                                            Implies(bl_corner[i][0] == bl_corner[j][0],
-                                                    bl_corner[i][1] <= bl_corner[j][1])))
-        constraints += no_simmetry
-        '''
-
-        #Implied constraint helps the solver with a different approach 
-        #It checks if the summ of all heights of the squares in a given witdth position is less than the grid's hight
-        #This makes no sense to me as we already know that there is no square that surpass that limit and the square cannot overlap.
-        #TODO understand if it is usefull (i don't think so)
-        """
         implied = []
-        for i in range(width):
-            for j in range(number_of_pieces):
+        for i in range(w):
+            for j in range(pieces):
                 implied.append( Sum(
-                    [If(And(O[j][x] <= i, i < O[j][x] + pieces[j][x]),
-                                        pieces[j][y],0) for j in range(number_of_pieces)]) <= height)
+                    [If(And(bl_corner[j][0] <= i, i < bl_corner[j][0] + dim_pieces[j][0]),
+                                        dim_pieces[j][1],0) for j in range(pieces)]) <= h)
 
-        for i in range(height):
-            for j in range(number_of_pieces):
-                implied.append(Sum([If(And( O[j][y] <= i, i < O[j][y] + pieces[j][y]), pieces[j][x],0) for j in range(number_of_pieces)]) <= width)
-
-        """
-        #As I was saying before this is not used. 🤢🤮
+        for i in range(h):
+            for j in range(pieces):
+                implied.append(Sum(
+                    [If(And( bl_corner[j][1] <= i, i < bl_corner[j][1] + dim_pieces[j][1]), 
+                                        dim_pieces[j][0],0) for j in range(pieces)]) <= w)
+        '''
+        #constraints += implied
 
         solver = Solver()
         solver.add(constraints)
@@ -110,8 +93,11 @@ for i in range(1):
                     h, 
                     w, 
                     pieces, 
-                    join(output_dir,filename).replace(".txt", "-out.txt"),
+                    solver,
+                    file = join(output_dir,filename).replace(".txt", "-stat.txt"),
                     rotation = False,
-                    console_output=False )
+                    solution= False,
+                    console_output=True )
         else:
-            print("STO VOLANDO")
+            print("Not satisfiable")
+

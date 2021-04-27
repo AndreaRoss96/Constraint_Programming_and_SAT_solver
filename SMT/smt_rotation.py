@@ -4,10 +4,10 @@ import numpy as np
 from z3 import And, Or, Int, If, Solver, sat, Implies
 from printer import printer
 
-output_dir ="D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\SMT\\out_rotation\\"
+output_dir ="D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\SMT\\time_rotation_no_implied\\"
 dazone = "D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\all_the_rest"
 files = [filename for filename in listdir(dazone) if isfile(join(dazone, filename))]
-for i in range(5):
+for i in range(1):
     for filename in files:
         dim_pieces = []
         with open(join(dazone, filename), "r") as input:
@@ -56,7 +56,6 @@ for i in range(5):
         for i in range(pieces):
             for j in range(pieces):
                 if (i<j):
-                    print(i)
                     # Given the squares 0, 1 we check that one of the following condition applies:
                     #  - 0 is fully on the left of 1
                     #  - 1 is fully on the left of 0
@@ -86,6 +85,16 @@ for i in range(5):
         solver.add(constraints)
         if solver.check() == sat:
             m = solver.model()
-            #printer(m, true_dim, bl_corner, h, w, pieces, join(output_dir,filename),rotation = True console_output=False )
+            printer(m, 
+                    true_dim, 
+                    bl_corner, 
+                    h, 
+                    w, 
+                    pieces, 
+                    solver,
+                    join(output_dir,filename).replace(".txt", "_stat.txt"),
+                    rotation = True,
+                    solution=False,
+                    console_output=True )
         else:
-            print("STO VOLANDO") # TODO
+            print("Not satisfiable") 
