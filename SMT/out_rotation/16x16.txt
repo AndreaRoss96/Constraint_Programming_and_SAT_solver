@@ -1,27 +1,12 @@
-
- (:arith-bound-propagations-cheap 12818
- :arith-bound-propagations-lp    8151
- :arith-conflicts                6932
- :arith-lower                    126699
- :arith-make-feasible            35303
- :arith-max-columns              240
- :arith-max-rows                 198
- :arith-propagations             12818
- :arith-upper                    125962
- :binary-propagations            22378
- :conflicts                      11794
- :decisions                      23685
- :del-clause                     3993
- :eliminated-vars                2
- :final-checks                   1
- :max-memory                     5.62
- :memory                         3.69
- :minimized-lits                 32307
- :mk-bool-var                    312
- :mk-clause                      19966
- :num-allocs                     142545998
- :num-checks                     1
- :propagations                   309925
- :restarts                       10
- :rlimit-count                   6636955
- :time                           6.64)
+16 16
+10
+3 3   3 3 
+3 4   6 12
+3 5   0 3 
+6 3   0 0 
+7 3   9 9 
+3 8   0 8 
+3 10  3 6 
+3 12  6 0 
+7 4   9 12
+7 9   9 0 

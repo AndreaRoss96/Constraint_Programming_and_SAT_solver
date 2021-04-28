@@ -1,11 +1,13 @@
 from os import listdir
 from os.path import join, isfile
 import numpy as np
-from z3 import And, Or, Int, If, Solver, sat, Implies 
-output_dir ="D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\SMT\\out_rotation\\"
+from z3 import And, Or, Int, If, Solver, sat, Implies
+from printer import printer
+
+output_dir ="D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\SMT\\time_rotation_no_implied\\"
 dazone = "D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\all_the_rest"
 files = [filename for filename in listdir(dazone) if isfile(join(dazone, filename))]
-for i in range(5):
+for i in range(1):
     for filename in files:
         dim_pieces = []
         with open(join(dazone, filename), "r") as input:
@@ -33,9 +35,11 @@ for i in range(5):
                             true_dim[i][1] == dim_pieces[i][1]), 
                         And(true_dim[i][0] == dim_pieces[i][1],
                             true_dim[i][1] == dim_pieces[i][0])
-                    ) for i in range(pieces)]
-
-
+                    ) for i in range(pieces) if dim_pieces[i][0] != dim_pieces[i][1]]
+        no_rotation = [And(true_dim[i][0] == dim_pieces[i][0], 
+                            true_dim[i][1] == dim_pieces[i][1]) 
+                        for i in range(pieces) if dim_pieces[i][0] == dim_pieces[i][1]]
+        
         in_domain = [ And(  bl_corner[i][0] >= 0,
                             bl_corner[i][0] < w, 
                             bl_corner[i][1] >= 0, 
@@ -75,22 +79,22 @@ for i in range(5):
                                             Implies(bl_corner[i][0] == bl_corner[j][0],
                                                     bl_corner[i][1] <= bl_corner[j][1])))
 
-        constraints = in_domain + in_paper + no_overlap + rotation + no_simmetry
+        constraints = in_domain + in_paper + no_overlap + rotation + no_rotation + no_simmetry
 
         solver = Solver()
         solver.add(constraints)
         if solver.check() == sat:
-
             m = solver.model()
-
-            print("{} {}".format(h, w))
-            with open(join(output_dir,filename), "a") as out:
-                '''    
-                for i in range(pieces):
-                    print("{:<1} {:<3} {:<1} {:<2}".format(dim_pieces[i][0], dim_pieces[i][1], str(m[bl_corner[i][0]]), str(m[bl_corner[i][1]])))
-                    out.write("{:<1} {:<3} {:<1} {:<2}\n".format(dim_pieces[i][0], dim_pieces[i][1], str(m[bl_corner[i][0]]), str(m[bl_corner[i][1]])))
-                '''
-                #for this iteraction I just want to save the statistics
-                out.write("\n {}".format(solver.statistics()))
+            printer(m, 
+                    true_dim, 
+                    bl_corner, 
+                    h, 
+                    w, 
+                    pieces, 
+                    solver,
+                    join(output_dir,filename).replace(".txt", "_stat.txt"),
+                    rotation = True,
+                    solution=False,
+                    console_output=True )
         else:
-            print("STO VOLANDO") # TODO
+            print("Not satisfiable") 
