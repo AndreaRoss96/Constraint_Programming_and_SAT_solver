@@ -1,5 +1,7 @@
 include "globals.mzn";
 
+% PARAMETERS %
+
 % paper roll dimensions
 int: w;
 int: h;
@@ -19,6 +21,8 @@ set of int: NPIECES_ROT = 1..n_shapes;
 
 % dimension of pieces of paper
 array[NPIECES, DIM] of int: rectangles; % used just in final print
+
+% VARIABLES %
 
 % coordinates of the left bottom corner of each rectangle
 array[NPIECES, DIM] of var int: coordinates;
@@ -53,6 +57,7 @@ array[DIM] of var int : l = [0,0];
 array[DIM] of var int : u = [w,h];
 
 % CONSTRAINTS %
+
 % set the domain of the pieces value
 constraint 
   forall(i in NPIECES)
@@ -66,7 +71,7 @@ constraint (cumulative([coordinates[i,y] | i in NPIECES ], [rect_size[kind[i],y]
 % bounding constraint
 constraint forall(i in NPIECES)(kind[i] in shape_index[i]); 
 
-% non-overlap constraint for k dimensional objects
+% non-overlap constraint for k-dimensional objects
 constraint
   geost_bb(k,rect_size,rect_offset, shape, coordinates, kind, l, u);
 
@@ -81,19 +86,17 @@ array[NDIFFPIECES] of int: rect_rep;
 array[NDIFFPIECES] of int: coordinate_shapes;
 
 % order pieces of the same size
-constraint forall(i in NDIFFPIECES)(
-  forall(j in 1..rect_rep[i]-1)(
-    lex_greater(coordinates[coordinate_shapes[i]+j,..],coordinates[coordinate_shapes[i]+j+1,..])));
+constraint
+  forall(i in NDIFFPIECES)(
+    forall(j in 1..rect_rep[i]-1)(
+      lex_greater(coordinates[coordinate_shapes[i]+j,..],coordinates[coordinate_shapes[i]+j+1,..])));
 
 % search
 ann:search_ann;
 % Choose the variable with the largest domain
 search_ann = int_search(coordinates, first_fail, indomain_split); 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GUARDA QUALE ANNOTAZIONE SCEGLIERE %%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%https://www.minizinc.org/doc-2.4.3/en/lib-annotations.html?highlight=first_fail
 
+%https://www.minizinc.org/doc-2.4.3/en/lib-annotations.html?highlight=first_fail
 % Choose the variable with largest domain, divided by the number of attached constraints weighted by how often they have caused failure
 %search_ann = int_search(coordinates, dom_w_deg, indomain_split);
 % Choose the variable with the smallest domain, breaking ties using the number of attached constraints

@@ -16,7 +16,7 @@ array[NPIECES, 1..2] of int: rectangles;
 int: x = 1;
 int: y = 2;
 
-% VARIABLE %
+% VARIABLES %
 % coordinates of the left bottom corner
 array[NPIECES, 1..2] of var int: coordinates; 
 
@@ -29,18 +29,18 @@ constraint
   forall(i in NPIECES)
     ((coordinates[i,x] >= 0 /\ coordinates[i,x] < w) /\ 
      (coordinates[i,y] >= 0 /\ coordinates[i,y] < h));
-     
+
 % bound the pieces dimension within the paper rolls limits
 constraint 
   forall(i in NPIECES)
     (((rectangles[i,x] + coordinates[i,x]) <= w) /\
      ((rectangles[i,y] + coordinates[i,y]) <= h));
-     
-% fix the first block 
+
+% fixes the first block 
 % constraint 
 %   coordinates[1,1] <= (w/2 - rectangles[1,1]/2) /\
 %   coordinates[1,2] <= (h/2 - rectangles[1,2]/2);
-     
+
 %% non-overlapping constraint
 /* predicate diffn
  * Constrains rectangles i , given by their origins ( x [ i ], y [ i ]) 
@@ -56,8 +56,8 @@ constraint
  *
  * constraint geost_nonoverlap_k(coordinates[..,x],size[..,x],coordinates[..,y],size[..,y]);
  *
- * but both the predicates fail with 40x40 paper size
-*/
+ * but both the predicates fail with 40x40 paper size and other large sized papers
+ */
 
 
 %% implied cumulative constraints 
