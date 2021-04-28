@@ -2,7 +2,7 @@ def printer(m, dim_pieces, bl_corner, h, w, pieces, solver, file = None, solutio
     # Print file
     if file is not None:
         with open(file, "a") as out:
-            out.write(str(solver.statistics().get_key_value("time")) + "\n")
+            #out.write(str(solver.statistics().get_key_value("time")) + "\n")
 
             if solution:
                 out.write("{} {}\n".format(h, w))

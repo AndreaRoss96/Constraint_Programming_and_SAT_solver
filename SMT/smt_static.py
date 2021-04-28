@@ -9,10 +9,11 @@ output_dir ="D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\
 dazone = "D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\all_the_rest"
 files = [filename for filename in listdir(dazone) if isfile(join(dazone, filename))]
 for i in range(5):
-    for filename in files:
+    for filename in ["39x39.txt"]:#files:
+
         dim_pieces = []
         with open(join(dazone, filename), "r") as input:
-            #pn the first line we have the dimension of the grid
+            #on the first line we have the dimension of the grid
             h, w = list(map(int,input.readline().replace("\n","").split(" ")))
 
             #on the second line we have the number of pieces
@@ -65,7 +66,7 @@ for i in range(5):
                                                     bl_corner[i][1] <= bl_corner[j][1])))
         constraints += no_simmetry
         constraints += no_overlap
-        '''
+        
         implied = []
         for i in range(w):
             for j in range(pieces):
@@ -78,8 +79,6 @@ for i in range(5):
                 implied.append(Sum(
                     [If(And( bl_corner[j][1] <= i, i < bl_corner[j][1] + dim_pieces[j][1]), 
                                         dim_pieces[j][0],0) for j in range(pieces)]) <= w)
-        '''
-        #constraints += implied
 
         solver = Solver()
         solver.add(constraints)

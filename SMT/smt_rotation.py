@@ -4,10 +4,10 @@ import numpy as np
 from z3 import And, Or, Int, If, Solver, sat, Implies
 from printer import printer
 
-output_dir ="D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\SMT\\time_rotation_no_implied\\"
+output_dir ="D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\SMT\\out_rotation\\"
 dazone = "D:\\Uni\\2020-21 2 sem\\opt\\Constraint_Programming_and_Sat_solver\\all_the_rest"
 files = [filename for filename in listdir(dazone) if isfile(join(dazone, filename))]
-for i in range(1):
+for i in range(2):
     for filename in files:
         dim_pieces = []
         with open(join(dazone, filename), "r") as input:
@@ -46,12 +46,10 @@ for i in range(1):
                             bl_corner[i][1] < h) for i in range(pieces)] 
 
         # All the pieces need to fit inside the grid
-        in_paper = [ And(   bl_corner[i][0] + true_dim[i][0] <= w, #TODO: idk if it < or <= 
+        in_paper = [ And(   bl_corner[i][0] + true_dim[i][0] <= w,
                             bl_corner[i][1] + true_dim[i][1] <= h ) for i in range(pieces)] 
 
-        #TODO put all the constraint in one single list and then flatten
 
-        #TODO find a different cycle to do this
         no_overlap = []		
         for i in range(pieces):
             for j in range(pieces):
@@ -79,6 +77,20 @@ for i in range(1):
                                             Implies(bl_corner[i][0] == bl_corner[j][0],
                                                     bl_corner[i][1] <= bl_corner[j][1])))
 
+        implied = []
+        for i in range(w):
+            for j in range(pieces):
+                implied.append( Sum(
+                    [If(And(bl_corner[j][0] <= i, i < bl_corner[j][0] + dim_pieces[j][0]),
+                                        dim_pieces[j][1],0) for j in range(pieces)]) <= h)
+
+        for i in range(h):
+            for j in range(pieces):
+                implied.append(Sum(
+                    [If(And( bl_corner[j][1] <= i, i < bl_corner[j][1] + dim_pieces[j][1]), 
+                                        dim_pieces[j][0],0) for j in range(pieces)]) <= w)
+
+
         constraints = in_domain + in_paper + no_overlap + rotation + no_rotation + no_simmetry
 
         solver = Solver()
@@ -92,9 +104,9 @@ for i in range(1):
                     w, 
                     pieces, 
                     solver,
-                    join(output_dir,filename).replace(".txt", "_stat.txt"),
+                    join(output_dir,filename).replace(".txt", "-out.txt"),
                     rotation = True,
-                    solution=False,
+                    solution=True,
                     console_output=True )
         else:
             print("Not satisfiable") 

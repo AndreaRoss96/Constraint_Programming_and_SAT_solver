@@ -1,33 +1,33 @@
-10x10 statistics mean: 0.0168, std: 0.0047
-11x11 statistics mean: 0.0176, std: 0.0037
-12x12 statistics mean: 0.0288, std: 0.0111
-13x13 statistics mean: 0.0572, std: 0.0373
-14x14 statistics mean: 0.0546, std: 0.0506
-15x15 statistics mean: 0.0374, std: 0.0143
-16x16 statistics mean: 0.0572, std: 0.0361
-17x17 statistics mean: 0.1776, std: 0.1399
-18x18 statistics mean: 13.2042, std: 11.1941
-19x19 statistics mean: 0.5380, std: 0.2012
-20x20 statistics mean: 0.4802, std: 0.2931
-21x21 statistics mean: 1.1820, std: 0.7924
-22x22 statistics mean: 0.6134, std: 0.3563
-23x23 statistics mean: 29.4874, std: 5.7704
-24x24 statistics mean: 6.8122, std: 9.3232
-25x25 statistics mean: 16.9397, std: 10.2190
-26x26 statistics mean: 38.7099, std: 28.3011
-27x27 statistics mean: 22.2272, std: 6.6607
-28x28 statistics mean: 41.2302, std: 16.1105
-29x29 statistics mean: 194.1974, std: 223.0021
-30x30 statistics mean: 22.6266, std: 10.7881
-31x31 statistics mean: 10.6504, std: 6.3214
-32x32 statistics mean: 69.0587, std: 35.9705
-33x33 statistics mean: 35.2152, std: 10.2478
-34x34 statistics mean: 14.0768, std: 11.8587
-35x35 statistics mean: 18.0356, std: 10.1482
-36x36 statistics mean: 42.4568, std: 32.5657
-37x37 statistics mean: 220.5162, std: 72.7971
-38x38 statistics mean: 18.5684, std: 7.9468
-39x39 statistics mean: 57.6490, std: None
-40x40 statistics mean: 9.5180, std: 8.9806
-8x8-s statistics mean: 0.0134, std: 0.0023
-9x9-s statistics mean: 0.0150, std: 0.0039
+10x10 & 0.0168 & 0.0047
+11x11 & 0.0176 & 0.0037
+12x12 & 0.0288 & 0.0111
+13x13 & 0.0572 & 0.0373
+14x14 & 0.0546 & 0.0506
+15x15 & 0.0374 & 0.0143
+16x16 & 0.0572 & 0.0361
+17x17 & 0.1776 & 0.1399
+18x18 & 13.2042 & 11.1941
+19x19 & 0.5380 & 0.2012
+20x20 & 0.4802 & 0.2931
+21x21 & 1.1820 & 0.7924
+22x22 & 0.6134 & 0.3563
+23x23 & 29.4874 & 5.7704
+24x24 & 6.8122 & 9.3232
+25x25 & 16.9397 & 10.2190
+26x26 & 38.7099 & 28.3011
+27x27 & 22.2272 & 6.6607
+28x28 & 41.2302 & 16.1105
+29x29 & 194.1974 & 223.0021
+30x30 & 22.6266 & 10.7881
+31x31 & 10.6504 & 6.3214
+32x32 & 69.0587 & 35.9705
+33x33 & 35.2152 & 10.2478
+34x34 & 14.0768 & 11.8587
+35x35 & 18.0356 & 10.1482
+36x36 & 42.4568 & 32.5657
+37x37 & 220.5162 & 72.7971
+38x38 & 18.5684 & 7.9468
+39x39 & 57.6490 &  ----- 
+40x40 & 9.3543 & 8.8792
+8x8-s & 0.0134 & 0.0023
+9x9-s & 0.0150 & 0.0039

@@ -1,19 +1,21 @@
-10x10 statistics mean: 0.0380, std: 0.0268
-11x11 statistics mean: 0.1635, std: 0.0077
-12x12 statistics mean: 0.5530, std: 0.1866
-13x13 statistics mean: 5.1495, std: 0.4787
-14x14 statistics mean: 2.4930, std: 0.4822
-15x15 statistics mean: 0.1180, std: 0.0084
-16x16 statistics mean: 7.4855, std: 1.5365
-17x17 statistics mean: 7.1085, std: 0.9722
-18x18 statistics mean: 204.2300, std: 61.0204
-19x19 statistics mean: 302.8964, std: 59.8304
-20x20 statistics mean: 10.4235, std: 1.9905
-21x21 statistics mean: 6.2880, std: 1.5231
-22x22 statistics mean: 15.0324, std: 3.2222
-23x23 statistics mean: 3199.3590, std: None
-24x24 statistics mean: 633.5915, std: 669.8995
-25x25 statistics mean: 2464.8530, std: None
-26x26 statistics mean: 404.0700, std: None
-27x27 statistics mean: 1122.2880, std: None
-28x28 statistics mean: 3128.4450, std: None
+10x10 & 0.0380 & 0.0268
+11x11 & 0.1635 & 0.0077
+12x12 & 0.5530 & 0.1866
+13x13 & 5.1495 & 0.4787
+14x14 & 2.4930 & 0.4822
+15x15 & 0.1180 & 0.0084
+16x16 & 7.4855 & 1.5365
+17x17 & 7.1085 & 0.9722
+18x18 & 204.2300 & 61.0204
+19x19 & 302.8964 & 59.8304
+20x20 & 10.4235 & 1.9905
+21x21 & 6.2880 & 1.5231
+22x22 & 15.0324 & 3.2222
+23x23 & 3199.3590 &  ----- 
+24x24 & 633.5915 & 669.8995
+25x25 & 2464.8530 &  ----- 
+26x26 & 404.0700 &  ----- 
+27x27 & 1122.2880 &  ----- 
+28x28 & 3128.4450 &  ----- 
+8x8_s & 0.0268 & 0.0230
+9x9_s & 0.0295 & 0.0166
