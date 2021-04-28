@@ -36,7 +36,7 @@ constraint
     (((rectangles[i,x] + coordinates[i,x]) <= w) /\
      ((rectangles[i,y] + coordinates[i,y]) <= h));
      
-% forza un blocco in basso a sinistra
+% fix the first block 
 % constraint 
 %   coordinates[1,1] <= (w/2 - rectangles[1,1]/2) /\
 %   coordinates[1,2] <= (h/2 - rectangles[1,2]/2);
@@ -50,7 +50,7 @@ constraint
 constraint
   diffn(coordinates[..,x],coordinates[..,y], rectangles[..,x], rectangles[..,y]);
 /*
-For the non-overlapping constraint I also tried:
+ * For the non-overlapping constraint I also tried:
  * array[NPIECES, 1..2] of var 0..max([w, h])-1: q;
  * constraint diffn_k(q,size);
  *
@@ -75,10 +75,8 @@ constraint
 % search
 ann:search_ann;
 % Choose the variable with the largest domain
-search_ann = int_search(coordinates, first_fail, indomain_split); 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GUARDA QUALE ANNOTAZIONE SCEGLIERE %%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%https://www.minizinc.org/doc-2.4.3/en/lib-annotations.html?highlight=first_fail
+search_ann = int_search(coordinates, first_fail, indomain_split);
+%%https://www.minizinc.org/doc-2.4.3/en/lib-annotations.html?highlight=first_fail
 
 % Choose the variable with largest domain, divided by the number of attached constraints weighted by how often they have caused failure
 %search_ann = int_search(coordinates, dom_w_deg, indomain_split);
