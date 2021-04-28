@@ -1,0 +1,40 @@
+To execute the surce code:
+
+smt-static.py
+ -  Change the input_dir variable to a path leading to 
+    the inputs at line 10.
+ -  Run the program.
+
+Notice that the program will execute a number of time equal 
+to the number of files in the folder, running once for every
+input.
+
+By default the output will be shown in the console, to save 
+it in a file:
+ -  change the output_dir variable (line 8) to a folder where the 
+    output will be stored.
+ -  uncomment line 99 to specify the file parameter in the 
+    printer method.
+ -  The file will be saved as wxl-out.txt (where wxl is the input 
+    file name) in the specified folder
+-----------------------------------------------------------------
+
+smt-rotation.py
+ -  Change the input_dir variable to a path leading to 
+    the inputs at line 10.
+ -  Run the program.
+
+Notice that the program will execute a number of time equal 
+to the number of files in the folder, running once for every
+input.
+
+By default the output will be shown in the console, to save 
+it in a file:
+ -  change the output_dir variable (line 8) to a folder where the 
+    output will be stored 
+ -  uncomment line 121 to specify the file parameter in the 
+    printer method.
+ -  The file will be saved as wxl-out.txt (where wxl is the input 
+    file name) in the specified folder
+
+
