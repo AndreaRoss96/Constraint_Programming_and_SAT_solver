@@ -1,121 +1,83 @@
-> 8x8.dzn 
-8 8
-4
-3 3  0 5
-3 5  3 5
-5 3  5 0
-5 5  0 0
-----------
-Finished in 680msec
-> 9x9.dzn 
-9 9
-5
-3 3  0 0
-3 4  0 3
-3 5  4 3
-3 6  3 0
-3 9  0 6
-----------
-Finished in 765msec
-> 10x10.dzn 
+> 10x10.dzn
 10 10
 6
 3 3  0 4
-3 4  0 7
-3 6  4 7
-3 7  3 4
+4 3  0 7
+6 3  4 7
+7 3  3 4
 4 4  0 0
-4 6  4 0
+6 4  4 0
 ----------
-Finished in 785msec
-> 11x11.dzn 
+Finished in 781msec
+> 11x11.dzn
 11 11
 7
 3 3  0 0
 3 4  0 3
-3 5  3 0
+5 3  3 0
 3 6  8 0
-5 3  8 6
+3 5  8 6
 5 4  3 3
 8 4  0 7
 ----------
-Finished in 1s 20msec
-> 12x12.dzn 
+Finished in 976msec
+> 12x12.dzn
 12 12
 8
 3 3  0 0
-3 4  0 3
-3 5  0 6
-3 6  0 9
-3 7  5 6
-3 8  4 3
-3 9  3 0
+4 3  0 3
+5 3  0 6
+6 3  0 9
+7 3  5 6
+8 3  4 3
+9 3  3 0
 6 3  6 9
 ----------
-Finished in 1s 293msec
-> 13x13.dzn 
+Finished in 1s 139msec
+> 13x13.dzn
 13 13
 9
 3 3  0 4
-3 4  3 4
-3 5  0 7
-3 6  0 10
-3 7  6 10
-3 8  5 7
-4 3  4 0
+4 3  3 4
+5 3  0 7
+6 3  0 10
+7 3  6 10
+8 3  5 7
+3 4  4 0
 4 4  0 0
-7 6  7 0
+6 7  7 0
 ----------
-Finished in 18s 247msec
-> 14x14.dzn 
+Finished in 19s 424msec
+> 14x14.dzn
 14 14
 9
 3 3  0 0
-3 4  0 3
-3 5  0 6
-3 6  5 6
-3 7  4 3
-3 8  3 0
+4 3  0 3
+5 3  0 6
+6 3  5 6
+7 3  4 3
+8 3  3 0
 3 9  11 0
-5 4  0 9
-5 10  4 9
+4 5  0 9
+10 5  4 9
 ----------
-Finished in 4m 9s
-> 15x15.dzn 
-Stopped.
-=====UNKNOWN=====
-Finished in 16m 6s
-> 16x16.dzn 
-=====UNKNOWN=====
-Finished in 16m 41s
-> 17x17.dzn 
-=====UNKNOWN=====
-Finished in 16m 41s
-> 18x18.dzn 
-=====UNKNOWN=====
-Finished in 16m 41s
-> 19x19.dzn 
-Stopped.
-Finished in 15m 21s
-> 20x20.dzn 
-=====UNKNOWN=====
-Finished in 16m 41s
-> 21x21.dzn 
-Stopped.
-Finished in 14m 17s
-> 22x22.dzn 
-=====UNKNOWN=====
-Finished in 16m 41s
-> 23x23.dzn 
-=====UNKNOWN=====
-Finished in 16m 41s
-> 24x24.dzn 
-=====UNKNOWN=====
-Finished in 16m 41s
-> 25x25.dzn 
-=====UNKNOWN=====
-Finished in 16m 41s
-> 26x26.dzn 
-=====UNKNOWN=====
-Finished in 16m 41s
-> 27x27.dzn 
+Finished in 4m 20s
+> 8x8.dzn
+8 8
+4
+3 3  0 5
+5 3  3 5
+3 5  5 0
+5 5  0 0
+----------
+Finished in 675msec
+> 9x9.dzn
+9 9
+5
+3 3  0 0
+4 3  0 3
+5 3  4 3
+6 3  3 0
+9 3  0 6
+----------
+Finished in 697msec
