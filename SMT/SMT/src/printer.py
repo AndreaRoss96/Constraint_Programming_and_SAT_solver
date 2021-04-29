@@ -1,3 +1,7 @@
+# Orazi Filippo 
+# Rossolini Andrea
+
+
 def printer(m, dim_pieces, bl_corner, h, w, pieces, solver, file = None, solution = True, rotation = False, statistics = False, console_output = True):
     # Print file
     if file is not None:

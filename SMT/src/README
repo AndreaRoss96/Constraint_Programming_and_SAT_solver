@@ -1,3 +1,7 @@
+Orazi Filippo 
+Rossolini Andrea
+
+
 To run the programs refer to the description of smt-static.py and smt-rotation.py
 
 
@@ -14,7 +18,7 @@ To execute the surce code:
 
 Notice that the program will execute a number of time equal 
 to the number of files in the folder, running once for every
-input.
+input. The txt file don't need any preprocessing.
 
 By default the output will be shown in the console, to save 
 it in a file:
@@ -36,7 +40,7 @@ This python file implements a solution that considers rotation
 
 Notice that the program will execute a number of time equal 
 to the number of files in the folder, running once for every
-input.
+input. The txt file don't need any preprocessing.
 
 By default the output will be shown in the console, to save 
 it in a file:

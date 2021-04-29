@@ -1,3 +1,7 @@
+# Orazi Filippo 
+# Rossolini Andrea
+
+
 from os import listdir
 from os.path import join, isfile
 import numpy as np
