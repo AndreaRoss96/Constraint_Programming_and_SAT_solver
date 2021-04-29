@@ -1,6 +1,13 @@
-To execute the surce code:
+To run the programs refer to the description of smt-static.py and smt-rotation.py
+
+
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
 
 smt-static.py
+This python file implements a solution that doesn't consider rotation.
+To execute the surce code:
  -  Change the input_dir variable to a path leading to 
     the inputs at line 10.
  -  Run the program.
@@ -17,9 +24,12 @@ it in a file:
     printer method.
  -  The file will be saved as wxl-out.txt (where wxl is the input 
     file name) in the specified folder
------------------------------------------------------------------
+
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
 
 smt-rotation.py
+This python file implements a solution that considers rotation
  -  Change the input_dir variable to a path leading to 
     the inputs at line 10.
  -  Run the program.
@@ -38,3 +48,10 @@ it in a file:
     file name) in the specified folder
 
 
+
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+
+printer.py
+This file implements a function to print the results of the z3 model, this includes
+general information about the input, the solution and the statistics.

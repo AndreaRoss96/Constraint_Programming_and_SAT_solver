@@ -30,7 +30,7 @@ for filename in files:
     #   1 = height
     bl_corner = [[Int("p_{}_{}".format(i, dim)) for dim in [0,1] ] for i in range(pieces) ]
     
-    # The rotation is handled by simply having a new list that will hold how the dimentions are oriented
+    # The rotation is handled by simply having a new list that will store how the dimentions are oriented
     true_dim = [[Int("dim_{}_{}".format(i, dim)) for dim in [0,1] ] for i in range(pieces) ]
 
     # List of all constraints
