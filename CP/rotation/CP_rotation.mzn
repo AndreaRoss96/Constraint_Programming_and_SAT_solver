@@ -20,7 +20,7 @@ int: n_shapes;
 set of int: NPIECES_ROT = 1..n_shapes;
 
 % dimension of pieces of paper
-array[NPIECES, DIM] of int: rectangles; % used just in final print
+array[NPIECES, DIM] of int: rectangles; % used just print for debug
 
 % VARIABLES %
 
@@ -64,14 +64,22 @@ constraint
     ((coordinates[i,x] >= 0 /\ coordinates[i,x] < w) /\ 
      (coordinates[i,y] >= 0 /\ coordinates[i,y] < h));
 
-% implied cumulative constraints --> riguarda
-constraint (cumulative([coordinates[i,x] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ],h));
-constraint (cumulative([coordinates[i,y] | i in NPIECES ], [rect_size[kind[i],y] | i in NPIECES ], [rect_size[kind[i],x] | i in NPIECES ],w));
+% implied cumulative constraints
+constraint 
+  (cumulative([coordinates[i,x] | i in NPIECES ],
+  [rect_size[kind[i],x] | i in NPIECES ],
+  [rect_size[kind[i],y] | i in NPIECES ],h));
+constraint
+  (cumulative([coordinates[i,y] | i in NPIECES ],
+  [rect_size[kind[i],y] | i in NPIECES ],
+  [rect_size[kind[i],x] | i in NPIECES ],w));
 
 % bounding constraint
-constraint forall(i in NPIECES)(kind[i] in shape_index[i]); 
+constraint
+  forall(i in NPIECES)
+    (kind[i] in shape_index[i]); 
 
-% non-overlap constraint for k-dimensional objects
+% non-overlap constraint for k dimensional objects
 constraint
   geost_bb(k,rect_size,rect_offset, shape, coordinates, kind, l, u);
 
@@ -93,10 +101,10 @@ constraint
 
 % search
 ann:search_ann;
-% Choose the variable with the largest domain
-search_ann = int_search(coordinates, first_fail, indomain_split); 
 
 %https://www.minizinc.org/doc-2.4.3/en/lib-annotations.html?highlight=first_fail
+% Choose the variable with the largest domain
+search_ann = int_search(coordinates, dom_w_deg, indomain_split); 
 % Choose the variable with largest domain, divided by the number of attached constraints weighted by how often they have caused failure
 %search_ann = int_search(coordinates, dom_w_deg, indomain_split);
 % Choose the variable with the smallest domain, breaking ties using the number of attached constraints
@@ -111,10 +119,9 @@ solve :: search_ann satisfy;
 %   "origin y:",show(coordinates[..,y]), "\n"
 % ];
 output [
-%   " required output:\n",
   show(w), " ", show(h), "\n",
   show(n_pieces), "\n",
 ];
 output[
-  show(rectangles[i,x]) ++ " " ++ show(rectangles[i,y]) ++ "  " ++ show(coordinates[i,x]) ++ " " ++ show(coordinates[i,y]) ++ "\n" | i in NPIECES
+  show(rect_size[kind[i],x]) ++ " " ++ show(rect_size[kind[i],y]) ++ "  " ++ show(coordinates[i,x]) ++ " " ++ show(coordinates[i,y]) ++ "\n" | i in NPIECES
 ];

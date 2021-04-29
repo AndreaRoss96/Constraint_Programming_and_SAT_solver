@@ -3,7 +3,7 @@ finish = 0
 index_paper = 0
 finish_paper = 0
 
-output_file = open(r"CP\\output_rot.txt", 'r')
+output_file = open(r"CP\\py_script\\output_rot.txt", 'r')
 lines = output_file.readlines()
 
 file_payload = []

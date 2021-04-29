@@ -5,11 +5,11 @@ include "globals.mzn";
 int: w;
 int: h;
 
-% number of necessary pieces of paper
+% total number of pieces of paper 
 int: n_pieces;
 set of int: NPIECES = 1..n_pieces;
 
-% dimension of pieces of paper
+% dimension of each piece of paper
 array[NPIECES, 1..2] of int: rectangles; 
 
 % axes
