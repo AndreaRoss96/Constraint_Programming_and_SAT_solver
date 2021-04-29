@@ -14,7 +14,7 @@ for filename in files:
     dim_pieces = []
     with open(join(inputs_dir, filename), "r") as input:
         #on the first line we have the dimension of the grid
-        h, w = list(map(int,input.readline().replace("\n","").split(" ")))
+        w, h = list(map(int,input.readline().replace("\n","").split(" ")))
 
         #on the second line we have the number of pieces
         pieces = int(input.readline().replace("\n",""))

@@ -15,7 +15,7 @@ for filename in files:
     with open(join(inputs_dir, filename), "r") as input:
         # On the first line we have the dimension of the grid
 
-        h, w = list(map(int,input.readline().replace("\n","").split(" ")))
+        w, h = list(map(int,input.readline().replace("\n","").split(" ")))
         
         # On the second line we have the number of pieces
         pieces = int(input.readline().replace("\n",""))
@@ -95,14 +95,14 @@ for filename in files:
     for i in range(w):
         for j in range(pieces):
             implied.append( Sum(
-                [If(And(bl_corner[j][0] <= i, i < bl_corner[j][0] + dim_pieces[j][0]),
-                                    dim_pieces[j][1],0) for j in range(pieces)]) <= h)
+                [If(And(bl_corner[j][0] <= i, i < bl_corner[j][0] + true_dim[j][0]),
+                                    true_dim[j][1],0) for j in range(pieces)]) <= h)
 
     for i in range(h):
         for j in range(pieces):
             implied.append(Sum(
-                [If(And( bl_corner[j][1] <= i, i < bl_corner[j][1] + dim_pieces[j][1]), 
-                                    dim_pieces[j][0],0) for j in range(pieces)]) <= w)
+                [If(And( bl_corner[j][1] <= i, i < bl_corner[j][1] + true_dim[j][1]), 
+                                    true_dim[j][0],0) for j in range(pieces)]) <= w)
 
 
     
