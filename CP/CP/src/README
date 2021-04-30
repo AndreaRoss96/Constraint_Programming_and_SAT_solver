@@ -2,6 +2,11 @@ In order to run the source code:
 
 1. install MiniZinc IDE --> https://www.minizinc.org/
 2. Open a file .mzn using MiniZinc
-3. On the tool bar, click "Show project explorer" > right-click on "Data" > browse for a .dzn file in the sub-folder "data" relative to the .mzn file you opened (so if you opened the file CP_rotation you should browse for a .dzn in the sub-folder "data" inside the folder "rotation")
+3. On the tool bar, click "Show project explorer" > right-click on "Data" > browse for a .dzn file in the sub-folder "res/data_*" relative to the .mzn file you opened (so if you opened the file CP_rotation you should browse for a .dzn in the sub-folder "data_rotation")
 4. Click "Run"
 
+------------------------
+
+The python script "translator.py" translate the input file .txt into .dzn. Deviding  the generate files into two folder: one used by CP_no_rotation and the other for CP_rotation
+
+In order to run the python script "translator.py" edit the path file on 8 (relative path of your main folder) and 121 (relative path of the txt files you want to translate)

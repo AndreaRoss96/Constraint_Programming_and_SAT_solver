@@ -1,8 +1,11 @@
+# Orazi Filippo
+# Rossolini Andrea
+
 import os
 import numpy as np 
 
 def process(user_path):
-    dir_ = r"Instances\\"
+    dir_ = r"" # Insert the relative path of the txt input location
     # r"../../Instances/"
 
     for filename in os.listdir(dir_):
@@ -115,5 +118,5 @@ def writer(h,w,n_pieces,user_path,new_file, rectangles,
  
 if __name__=="__main__":
     print("start")
-    user_path = r"C:\\Users\\admin\\Desktop\\toGitHub\\Constraint_Programming_and_SAT_solver\\"
+    user_path = r" " # Insert the relative path of your folder 
     process(user_path)

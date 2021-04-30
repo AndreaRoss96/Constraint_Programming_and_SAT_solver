@@ -1,3 +1,6 @@
+% Orazi Filippo
+% Rossolini Andrea
+
 include "globals.mzn";
 
 % PARAMETERS %
