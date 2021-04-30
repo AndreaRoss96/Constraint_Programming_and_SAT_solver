@@ -79,9 +79,14 @@ search_ann = int_search(coordinates, first_fail, indomain_split);
 %%https://www.minizinc.org/doc-2.4.3/en/lib-annotations.html?highlight=first_fail
 
 % Choose the variable with largest domain, divided by the number of attached constraints weighted by how often they have caused failure
-%search_ann = int_search(coordinates, dom_w_deg, indomain_split);
+% search_ann = int_search(coordinates, dom_w_deg, indomain_split);
 % Choose the variable with the smallest domain, breaking ties using the number of attached constraints
-%search_ann = int_search(coordinates, most_constrained, indomain_split);
+% search_ann = int_search(coordinates, most_constrained, indomain_split);
+% Choose the variable with the highest impact so far during the search
+% search_ann = int_search(coordinates, input_order, indomain_split);
+% Choose the variable with the largest value in its domain
+% search_ann = int_search(coordinates, max_regret, indomain_split);
+
 solve :: search_ann satisfy;
 
 % output [

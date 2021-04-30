@@ -87,10 +87,10 @@ constraint
 int: rect_copies;
 set of int: NDIFFPIECES = 1..rect_copies;
 
-% number of copy for each piece of paper
+% number of repetition (shape) for each piece of paper
 array[NDIFFPIECES] of int: rect_rep;
 
-% find the starting index of each shape
+% index of each shape
 array[NDIFFPIECES] of int: coordinate_shapes;
 
 % order pieces of the same size

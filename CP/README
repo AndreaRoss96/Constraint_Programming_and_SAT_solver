@@ -1,0 +1,7 @@
+In order to run the source code:
+
+1. install MiniZinc IDE --> https://www.minizinc.org/
+2. Open a file .mzn using MiniZinc
+3. On the tool bar, click "Show project explorer" > right-click on "Data" > browse for a .dzn file in the sub-folder "data" relative to the .mzn file you opened (so if you opened the file CP_rotation you should browse for a .dzn in the sub-folder "data" inside the folder "rotation")
+4. Click "Run"
+
